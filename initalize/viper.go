@@ -5,9 +5,10 @@ package initalize
 
 import (
 	"errors"
+
 	"github.com/fsnotify/fsnotify"
 	"github.com/spf13/viper"
-	"github.com/ufec/douyin_be/config"
+	"github.com/yun-zhi-ztl/995_douyin/config"
 )
 
 // InitViper
@@ -15,6 +16,7 @@ import (
 func InitViper() {
 	v := viper.New()
 	v.SetConfigFile("config.yaml")
+	viper.AddConfigPath("./") // call multiple times to add many search paths
 	v.SetConfigType("yaml")
 	readConfErr := v.ReadInConfig()
 	if readConfErr != nil {

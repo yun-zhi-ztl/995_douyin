@@ -1,5 +1,5 @@
 server:
-  port: 8080
+  port: 8081
   db_type: mysql
   host: 127.0.0.1
 
@@ -7,7 +7,7 @@ mysql:
   host: 127.0.0.1
   port: 3306
   username: root
-  password: root
+  password: winner0423
   charset: utf8mb4
   prefix: douyin_
   db_name: douyin

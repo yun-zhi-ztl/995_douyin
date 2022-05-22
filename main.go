@@ -2,9 +2,9 @@ package main
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/ufec/douyin_be/config"
-	"github.com/ufec/douyin_be/initalize"
-	"github.com/ufec/douyin_be/initalize/gormConfig"
+	"github.com/yun-zhi-ztl/995_douyin/config"
+	"github.com/yun-zhi-ztl/995_douyin/initalize"
+	"github.com/yun-zhi-ztl/995_douyin/initalize/gormConfig"
 )
 
 func main() {
@@ -19,5 +19,7 @@ func main() {
 	}
 	r := gin.Default()
 	initRouter(r)
-	r.Run() // listen and serve on 0.0.0.0:8080 (for windows "localhost:8080")
+	// s := config.Config.Server.Port
+	// r.Run(":" + strconv.Itoa(s)) // listen and serve on 0.0.0.0:8080 (for windows "localhost:8080")
+	r.Run(":8081")
 }

@@ -2,8 +2,8 @@ package main
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/ufec/douyin_be/controller"
-	"github.com/ufec/douyin_be/middleware"
+	"github.com/yun-zhi-ztl/995_douyin/controller"
+	"github.com/yun-zhi-ztl/995_douyin/middleware"
 )
 
 func initRouter(r *gin.Engine) {
@@ -18,6 +18,7 @@ func initRouter(r *gin.Engine) {
 	apiRouter.GET("/user/", middleware.JWTAuth("query"), controller.UserInfo)
 	apiRouter.POST("/user/register/", controller.Register)
 	apiRouter.POST("/user/login/", controller.Login)
+	// apiRouter.POST("/user/token/", controller.Token)
 	apiRouter.GET("/publish/list/", middleware.JWTAuth("query"), controller.PublishList)
 	apiRouter.POST("/publish/action/", middleware.JWTAuth("form"), controller.Publish)
 
