@@ -4,10 +4,6 @@
 package middleware
 
 import (
-	"fmt"
-	"time"
-
-	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
 )
 
@@ -42,87 +38,4 @@ func JWTAuth(where string) gin.HandlerFunc {
 		//c.Set("userID", controller.UsersLoginInfo[token].ID)
 		c.Next()
 	}
-}
-
-type JwtClaims struct {
-	*jwt.StandardClaims
-	//用户编号
-	Username     string
-	Userpassword string
-}
-
-var mySigningKey = []byte("Key")
-
-//创建token
-// CreateJwtToken 生成一个jwttoken
-func CreateJwtToken(username, password string) (string, error) {
-	// 定义过期时间,7天后过期
-	expireToken := time.Now().Add(time.Hour * 24 * 7).Unix()
-	claims := JwtClaims{
-		&jwt.StandardClaims{
-			NotBefore: int64(time.Now().Unix() - 1000), // token信息生效时间
-			ExpiresAt: int64(expireToken),              // 过期时间
-			Issuer:    "douyin",                        // 发布者
-		},
-		username,
-		password,
-	}
-	//SigningMethodHS256,HS256对称加密方式
-	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-	//通过自定义令牌加密
-	ss, err := token.SignedString(mySigningKey)
-	return ss, err
-}
-
-type JwtClaims1 struct {
-	*jwt.StandardClaims
-	//用户编号
-	UserId int
-}
-
-func CreateJwtToken1(id int) (string, error) {
-	// 定义过期时间,7天后过期
-	expireToken := time.Now().Add(time.Hour * 24 * 7).Unix()
-	claims := JwtClaims1{
-		&jwt.StandardClaims{
-			NotBefore: int64(time.Now().Unix() - 1000), // token信息生效时间
-			ExpiresAt: int64(expireToken),              // 过期时间
-			Issuer:    "douyin",                        // 发布者
-		},
-		id,
-	}
-	//SigningMethodHS256,HS256对称加密方式
-	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-	//通过自定义令牌加密
-	ss, err := token.SignedString(mySigningKey)
-	return ss, err
-}
-
-// ParseToken 解析JWT
-func ParserToken(tokenString string) (*JwtClaims, error) {
-	token, err := jwt.ParseWithClaims(tokenString, &JwtClaims{}, func(token *jwt.Token) (interface{}, error) {
-		return mySigningKey, nil
-	})
-	if err != nil {
-		// jwt.ValidationError 是一个无效token的错误结构
-		if ve, ok := err.(*jwt.ValidationError); ok {
-			// ValidationErrorMalformed是一个uint常量，表示token不可用
-			if ve.Errors&jwt.ValidationErrorMalformed != 0 {
-				return nil, fmt.Errorf("token不可用")
-				// ValidationErrorExpired表示Token过期
-			} else if ve.Errors&jwt.ValidationErrorExpired != 0 {
-				return nil, fmt.Errorf("token过期")
-				// ValidationErrorNotValidYet表示无效token
-			} else if ve.Errors&jwt.ValidationErrorNotValidYet != 0 {
-				return nil, fmt.Errorf("无效的token")
-			} else {
-				return nil, fmt.Errorf("token不可用")
-			}
-		}
-	}
-	// 将token中的claims信息解析出来并断言成用户自定义的有效载荷结构
-	if claims, ok := token.Claims.(*JwtClaims); ok && token.Valid {
-		return claims, nil
-	}
-	return nil, fmt.Errorf("token无效")
 }

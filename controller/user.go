@@ -20,7 +20,7 @@ type UserLoginResponse struct {
 
 type UserResponse struct {
 	Response
-	User User `json:"user"`
+	User *service.UserInfo `json:"user"`
 }
 
 // 注册response：UserLoginResponse
@@ -82,7 +82,8 @@ func Login(c *gin.Context) {
 
 func UserInfo(c *gin.Context) {
 	token := c.Query("token")
-	if user, exist := UsersLoginInfo[token]; exist {
+	if user, exist := service.UserQue(token); exist {
+		//if user, exist := UsersLoginInfo[token]; exist {
 		c.JSON(http.StatusOK, UserResponse{
 			Response: Response{StatusCode: 0},
 			User:     user,

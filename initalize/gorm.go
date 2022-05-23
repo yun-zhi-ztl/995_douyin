@@ -26,7 +26,7 @@ func InitGorm() *gorm.DB {
 func CreateTable(db *gorm.DB) error {
 	// 创建表，自动迁移(把结构体和数据表进行对应)
 	err := db.AutoMigrate(
-		model.User{},
+		model.UserInfo{},
 	//model.Video{},
 	//model.Comment{},
 	)
