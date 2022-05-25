@@ -1,12 +1,13 @@
-package main
+package api
 
 import (
+	"douyin/controller"
+	"douyin/middleware"
+
 	"github.com/gin-gonic/gin"
-	"github.com/ufec/douyin_be/controller"
-	"github.com/ufec/douyin_be/middleware"
 )
 
-func initRouter(r *gin.Engine) {
+func InitRouter(r *gin.Engine) {
 	// public directory is used to serve static resources
 	r.Static("/public", "./public")
 	r.StaticFile("/favicon.ico", "./public/favicon.ico")

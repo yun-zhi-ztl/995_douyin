@@ -4,7 +4,7 @@
 package gormConfig
 
 import (
-	"github.com/ufec/douyin_be/config"
+	"douyin/config"
 	"gorm.io/gorm"
 	"gorm.io/gorm/schema"
 )

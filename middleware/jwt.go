@@ -4,8 +4,8 @@
 package middleware
 
 import (
+	"douyin/controller"
 	"github.com/gin-gonic/gin"
-	"github.com/ufec/douyin_be/controller"
 	"net/http"
 )
 

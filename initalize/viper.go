@@ -4,10 +4,10 @@
 package initalize
 
 import (
+	"douyin/config"
 	"errors"
 	"github.com/fsnotify/fsnotify"
 	"github.com/spf13/viper"
-	"github.com/ufec/douyin_be/config"
 )
 
 // InitViper
