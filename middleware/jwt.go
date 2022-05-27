@@ -5,8 +5,6 @@ package middleware
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/yun-zhi-ztl/995_douyin/controller"
-	"net/http"
 )
 
 // JWTAuth
@@ -25,12 +23,6 @@ func JWTAuth(where string) gin.HandlerFunc {
 		default:
 			token = c.Query("token")
 		}
-		userId, parseTokenErr := ParserToken(token)
-		if parseTokenErr != nil {
-			c.JSON(http.StatusOK, controller.Response{StatusCode: 1, StatusMsg: "token鉴权失败, 非法操作"})
-			c.Abort() // 阻止后续流程
-			return
-		}
 		// 不存在该用户token则直接抛出用户不存在错误信息
 		// if _, exists := controller.UsersLoginInfo[token]; !exists {
 		// 	c.JSON(http.StatusOK, controller.Response{StatusCode: 1, StatusMsg: "token鉴权失败, 非法操作"})
@@ -43,7 +35,7 @@ func JWTAuth(where string) gin.HandlerFunc {
 
 		// 设置Token也是不必要的 从整体来看 我们仅仅只需要用户ID便能唯一确定用户, gin 也支持获取基础数据类型 恰好符合要求
 		c.Set("token", token)
-		c.Set("userID", userId)
+		//c.Set("userID", controller.UsersLoginInfo[token].ID)
 		c.Next()
 	}
 }
