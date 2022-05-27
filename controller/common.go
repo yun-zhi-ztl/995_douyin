@@ -1,5 +1,7 @@
 package controller
 
+import "github.com/yun-zhi-ztl/995_douyin/service"
+
 type Response struct {
 	StatusCode int32  `json:"status_code"`
 	StatusMsg  string `json:"status_msg,omitempty"`
@@ -29,3 +31,5 @@ type User struct {
 	FollowerCount int64  `json:"follower_count,omitempty"`
 	IsFollow      bool   `json:"is_follow,omitempty"`
 }
+
+var videoService service.VideoService
