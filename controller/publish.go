@@ -2,8 +2,10 @@ package controller
 
 import (
 	"douyin/dao"
+	"douyin/utils"
 	"net/http"
 	"path"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 )
@@ -32,16 +34,22 @@ func Publish(c *gin.Context) {
 		title := c.PostForm("title")
 		token := c.PostForm("token")
 		currentUser := UsersLoginInfo[token]
+		coverName := file.Filename + "_conver.png"
+		err := utils.BuildThumbnailWithVideo(path.Join(VIDEO_PATH, file.Filename), path.Join(COVER_PATH, coverName))
+		if err != nil {
+			//若是生成封面失败，则使用默认的封面
+			coverName = "123.png"
+		}
 		videoDB := dao.VideoDB{
 			UserId:        int(currentUser.Id),
 			PlayUrl:       path.Join(VIDEO_URL, file.Filename),
-			CoverUrl:      path.Join(COVER_URL, "123.png"),
+			CoverUrl:      path.Join(COVER_URL, coverName),
 			Title:         title,
 			FavoriteCount: 0,
 			CommentCount:  0,
 			IsFavorite:    false,
 		}
-		err := videoDB.Create()
+		err = videoDB.Create()
 		if err != nil {
 			c.JSON(http.StatusBadRequest, Response{
 				StatusCode: 1,
@@ -59,5 +67,37 @@ func Publish(c *gin.Context) {
 
 // PublishList all users have same publish video list
 func PublishList(c *gin.Context) {
+	token := c.Query("token")
+	user := UsersLoginInfo[token]
+	user_str_id := c.Query("user_id")
+	user_id, _ := strconv.Atoi(user_str_id)
+	videoDB := dao.VideoDB{}
+	result, err := videoDB.QueryByUserID(user_id)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, Response{
+			StatusCode: 0,
+			StatusMsg:  "查询失败",
+		})
+	} else {
+		videoListresponse := VideoListResponse{}
+		response := Response{
+			StatusCode: 0,
+			StatusMsg:  "获取成功",
+		}
+		var videos = make([]Video, 0, len(*result))
+		for i := 0; i < len(*result); i++ {
+			videos[i].Author = user
+			videos[i].Title = (*result)[i].Title
+			videos[i].Id = (int64)((*result)[i].VideoId)
+			videos[i].PlayUrl = (*result)[i].PlayUrl
+			videos[i].CoverUrl = (*result)[i].CoverUrl
+			videos[i].FavoriteCount = (int64)((*result)[i].FavoriteCount)
+			videos[i].CommentCount = (int64)((*result)[i].CommentCount)
+			videos[i].IsFavorite = (*result)[i].IsFavorite
+		}
+		videoListresponse.Response = response
+		videoListresponse.VideoList = videos
+		c.JSON(http.StatusBadRequest, videoListresponse)
+	}
 
 }

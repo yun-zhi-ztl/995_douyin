@@ -3,7 +3,7 @@ package dao
 import "douyin/config"
 
 type VideoDB struct {
-	VideoId       int    `json:"video_id,omitempty" gorm:"column:video_id"`
+	VideoId       int    `json:"id,omitempty" gorm:"column:video_id"`
 	UserId        int    `json:"user_id" gorm:"column:user_id"`
 	PlayUrl       string `json:"play_url,omitempty" gorm:"column:play_url"`
 	CoverUrl      string `json:"cover_url,omitempty" gorm:"column:cover_url"`
@@ -19,4 +19,16 @@ func (v VideoDB) TableName() string {
 
 func (v VideoDB) Create() error {
 	return config.DB.Create(&v).Error
+}
+
+func (v VideoDB) QueryByUserID(userId int) (*[]VideoDB, error) {
+
+	var videos []VideoDB
+	err := config.DB.Where(&VideoDB{UserId: userId}).Find(&videos).Error
+	if err != nil {
+		return nil, err
+	} else {
+		return &videos, err
+	}
+
 }
