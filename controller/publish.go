@@ -3,9 +3,11 @@ package controller
 import (
 	"douyin/dao"
 	"douyin/utils"
+	"fmt"
 	"net/http"
 	"path"
 	"strconv"
+	"strings"
 
 	"github.com/gin-gonic/gin"
 )
@@ -22,7 +24,6 @@ var COVER_PATH = "public/cover"
 
 // Publish check token then save upload file to public directory
 func Publish(c *gin.Context) {
-
 	file, err := c.FormFile("data")
 	if err != nil {
 		c.JSON(http.StatusBadRequest, Response{
@@ -34,7 +35,9 @@ func Publish(c *gin.Context) {
 		title := c.PostForm("title")
 		token := c.PostForm("token")
 		currentUser := UsersLoginInfo[token]
-		coverName := file.Filename + "_conver.png"
+		coverName := strings.Split(file.Filename, ".")[0] + "_conver.png"
+		fmt.Println(path.Join(VIDEO_PATH, file.Filename))
+		fmt.Println(path.Join(COVER_PATH, coverName))
 		err := utils.BuildThumbnailWithVideo(path.Join(VIDEO_PATH, file.Filename), path.Join(COVER_PATH, coverName))
 		if err != nil {
 			//若是生成封面失败，则使用默认的封面
@@ -56,7 +59,7 @@ func Publish(c *gin.Context) {
 				StatusMsg:  "文件上传失败",
 			})
 		} else {
-			c.JSON(http.StatusBadRequest, Response{
+			c.JSON(http.StatusOK, Response{
 				StatusCode: 0,
 				StatusMsg:  "文件成功上传",
 			})
@@ -84,7 +87,7 @@ func PublishList(c *gin.Context) {
 			StatusCode: 0,
 			StatusMsg:  "获取成功",
 		}
-		var videos = make([]Video, 0, len(*result))
+		var videos = make([]Video, len(*result), len(*result))
 		for i := 0; i < len(*result); i++ {
 			videos[i].Author = user
 			videos[i].Title = (*result)[i].Title
@@ -97,7 +100,7 @@ func PublishList(c *gin.Context) {
 		}
 		videoListresponse.Response = response
 		videoListresponse.VideoList = videos
-		c.JSON(http.StatusBadRequest, videoListresponse)
+		c.JSON(http.StatusOK, videoListresponse)
 	}
 
 }

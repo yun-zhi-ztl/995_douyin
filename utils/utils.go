@@ -8,6 +8,7 @@ import (
 	"crypto/sha256"
 	"encoding/base64"
 	"encoding/hex"
+	"fmt"
 	"os"
 	"os/exec"
 )
@@ -18,9 +19,11 @@ import (
 //  @param outputPath string 生成缩略图的路径(含文件名、文件后缀)
 //  @return error 错误
 func BuildThumbnailWithVideo(videoPath, outputPath string) error {
-	cmd := "ffmpeg -i " + videoPath + " -f image2 -t 0.001 " + outputPath
-	err := exec.Command("cmd", "/c", cmd).Run()
+	cmd := "ffmpeg -i " + "./" + videoPath + " -f image2 -t 0.001 " + "./" + outputPath
+	fmt.Println(cmd)
+	err := exec.Command("bash", "-c", cmd).Run()
 	if err != nil {
+		fmt.Println("sssssss")
 		return err
 	}
 	return nil

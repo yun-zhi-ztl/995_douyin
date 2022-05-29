@@ -33,7 +33,7 @@ func Login(c *gin.Context) {
 	response := gin.H{
 		"status_code": 0,
 		"status_msg":  "登录成功",
-		"user_id":     1111111,
+		"user_id":     0,
 		"token":       "sdjsdkdiosfksafafhsus",
 	}
 	user := User{
@@ -48,8 +48,8 @@ func UserInfo(c *gin.Context) {
 	user := User{
 		Id:            int64(user_id),
 		Name:          "sssssss",
-		FollowCount:   0,
-		FollowerCount: 0,
+		FollowCount:   55,
+		FollowerCount: 55,
 		IsFollow:      false,
 	}
 	response := gin.H{
