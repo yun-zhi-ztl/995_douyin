@@ -30,7 +30,6 @@ func GormMysql() *gorm.DB {
 	db, openGormErr := gorm.Open(mysql.New(mysqlConfig), config.GormConfig)
 	if openGormErr != nil {
 		panic(openGormErr)
-		return nil
 	}
 	return db
 }

@@ -24,7 +24,11 @@ func Register(username, password string) *RegisterInfo {
 		}
 	}
 	// 此处需要考虑数据库线程安全
-	config.DB.Create(&user)
+	if config.DB.Create(&user).Error != nil {
+		return &RegisterInfo{
+			Err: errors.New("error in create user"),
+		}
+	}
 	// 生成token
 	token, err := middleware.CreateJwtToken(user.ID)
 	if err != nil {
@@ -50,12 +54,12 @@ func Login(username, password string) *LoginInfo {
 	// 用户名和密码不能为空
 	if len(username) == 0 || len(password) == 0 {
 		return &LoginInfo{
-			Err: errors.New("username and password cannot be empty"),
+			Err: errors.New("user_name and password cannot be empty"),
 		}
 	}
 	// 检查是否已经注册
 	var user model.UserInfo
-	config.DB.Where("Name = ?", username).Find(&user)
+	config.DB.Where("user_name = ?", username).Find(&user)
 	if user.ID == 0 {
 		return &LoginInfo{
 			Err: errors.New("the user not registered, please registe in"),

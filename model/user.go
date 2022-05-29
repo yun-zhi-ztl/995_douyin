@@ -12,9 +12,9 @@ type UserInfo struct {
 	gorm.Model
 	UserName      string `gorm:"varchar(32);not null;unique;comment:用户名称"`
 	Password      string `gorm:"varchar(32);not null;comment:用户密码"`
-	FollowCount   int    `gorm:"default:0,not null;comment:关注总数"`
-	FollowerCount int    `gorm:"default:0,not null;comment:粉丝总数"`
-	IsFollow      bool   `gorm:"default:false,not null;comment:是否关注"`
+	FollowCount   int    `gorm:"default:0;not null;comment:关注总数"`
+	FollowerCount int    `gorm:"default:0;not null;comment:粉丝总数"`
+	IsFollow      bool   `gorm:"-"`
 }
 
 func CreateNewUserSingleton(username, password string) (*UserInfo, error) {
@@ -22,17 +22,14 @@ func CreateNewUserSingleton(username, password string) (*UserInfo, error) {
 	if len(username) == 0 || len(password) == 0 {
 		return nil, errors.New("username and password cannot be empty")
 	}
-	// 检查是否已经注册
+	// // 检查是否已经注册
 	var user UserInfo
-	config.DB.Where("Name = ?", username).Find(&user)
+	config.DB.Where("user_name = ?", username).Find(&user)
 	if user.ID != 0 {
 		return nil, errors.New("the user has already registered, please log in")
 	}
 	return &UserInfo{
-		UserName:      username,
-		Password:      password,
-		FollowCount:   0,
-		FollowerCount: 0,
-		IsFollow:      false,
+		UserName: username,
+		Password: password,
 	}, nil
 }
