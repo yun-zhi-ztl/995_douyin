@@ -82,17 +82,21 @@ func Login(c *gin.Context) {
 
 func UserInfo(c *gin.Context) {
 	token := c.Query("token")
-	if user, exist := service.UserQue(token); exist {
-		//if user, exist := UsersLoginInfo[token]; exist {
-		c.JSON(http.StatusOK, UserResponse{
-			Response: Response{StatusCode: 0},
-			User:     user,
+	userInfo, ok := service.UserQue(token)
+	if !ok {
+		c.JSON(http.StatusOK, Response{
+			StatusCode: 1,
+			StatusMsg:  "token is invalid",
 		})
-	} else {
-		c.JSON(http.StatusOK, UserResponse{
-			Response: Response{StatusCode: 1, StatusMsg: "User doesn't exist"},
-		})
+		return
 	}
+	c.JSON(http.StatusOK, UserResponse{
+		Response: Response{
+			StatusCode: 0,
+			StatusMsg:  "success",
+		},
+		User: userInfo,
+	})
 }
 
 // // token回应：测试处理
