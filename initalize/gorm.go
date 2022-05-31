@@ -28,6 +28,7 @@ func CreateTable(db *gorm.DB) error {
 	err := db.AutoMigrate(
 		model.UserInfo{},
 		model.Comment{},
+		model.Video{},
 	)
 	if err != nil {
 		return err

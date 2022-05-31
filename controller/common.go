@@ -32,9 +32,12 @@ type User struct {
 
 // 评论操作响应内容
 type CommentResponse struct {
-	BaseResponse Response `json:"response"`
-	ID           uint     `json:"id"`          // 评论id
-	Content      string   `json:"content"`     // 评论内容
-	CreateDate   string   `json:"create_date"` // 评论发布日期，格式 mm-dd
-	User         User     `json:"user"`        // 评论用户信息
+	Response
+	Comment Comment
+}
+
+// 评论列表响应内容
+type CommentListResponse struct {
+	Response
+	CommentList []Comment `json:"comment_list,omitempty"`
 }
