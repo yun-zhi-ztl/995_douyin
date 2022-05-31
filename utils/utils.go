@@ -10,6 +10,7 @@ import (
 	"encoding/hex"
 	"os"
 	"os/exec"
+	"strconv"
 )
 
 // BuildThumbnailWithVideo
@@ -57,4 +58,12 @@ func HmacSha256(message, secret, outputType string) string {
 		return hex.EncodeToString(h.Sum(nil))
 	}
 	return base64.StdEncoding.EncodeToString(h.Sum(nil))
+}
+
+func GetFolloweeRedisKey(userId int) string {
+	return "followee" + ":" + strconv.Itoa(userId)
+}
+
+func GetFollowerRedisKey(userId int) string {
+	return "follower" + ":" + strconv.Itoa(userId)
 }

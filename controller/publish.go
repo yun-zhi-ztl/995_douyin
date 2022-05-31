@@ -11,6 +11,9 @@ type VideoListResponse struct {
 
 // Publish check token then save upload file to public directory
 func Publish(c *gin.Context) {
+	//userId := Qualify(c).ID
+	//获取文件
+
 }
 
 // PublishList all users have same publish video list

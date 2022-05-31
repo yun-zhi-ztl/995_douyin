@@ -1,10 +1,9 @@
 package controller
 
 import (
-	"net/http"
-
+	"995_douyin/service"
 	"github.com/gin-gonic/gin"
-	"github.com/yun-zhi-ztl/995_douyin/service"
+	"net/http"
 )
 
 // UsersLoginInfo use map to store user info, and key is username+password for demo
@@ -20,7 +19,7 @@ type UserLoginResponse struct {
 
 type UserResponse struct {
 	Response
-	User *service.UserInfo `json:"user"`
+	User User `json:"user"`
 }
 
 // 注册response：UserLoginResponse
@@ -81,44 +80,16 @@ func Login(c *gin.Context) {
 }
 
 func UserInfo(c *gin.Context) {
-	token := c.Query("token")
-	userInfo, ok := service.UserQue(token)
-	if !ok {
-		c.JSON(http.StatusOK, Response{
-			StatusCode: 1,
-			StatusMsg:  "token is invalid",
-		})
-		return
+	var user = Qualify(c)
+	var User = &User{
+		Id:            int64(user.ID),
+		Name:          user.Name,
+		FollowCount:   service.FolloweeCount(int(user.ID)),
+		FollowerCount: service.FollowerCount(int(user.ID)),
+		IsFollow:      false,
 	}
 	c.JSON(http.StatusOK, UserResponse{
-		Response: Response{
-			StatusCode: 0,
-			StatusMsg:  "success",
-		},
-		User: userInfo,
+		Response: Response{StatusCode: 0},
+		User:     *User,
 	})
 }
-
-// // token回应：测试处理
-// type UserToken struct {
-// 	Response
-// 	UserName string `json:"username,omitempty"`
-// 	Password string `json:"password,omitempty"`
-// }
-
-// // 解析token测试
-// func Token(c *gin.Context) {
-// 	token, _ := c.GetPostForm("token")
-// 	claims, err := middleware.ParserToken(token)
-// 	if err != nil {
-// 		c.JSON(http.StatusOK, UserRegisterResponse{
-// 			Response: Response{StatusCode: 1, StatusMsg: err.Error()},
-// 		})
-// 	} else {
-// 		c.JSON(http.StatusOK, UserToken{
-// 			Response: Response{StatusCode: 0},
-// 			UserName: claims.Username,
-// 			Password: claims.Userpassword,
-// 		})
-// 	}
-// }

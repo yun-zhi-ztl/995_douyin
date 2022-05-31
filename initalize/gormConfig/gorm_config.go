@@ -4,7 +4,7 @@
 package gormConfig
 
 import (
-	"github.com/yun-zhi-ztl/995_douyin/config"
+	"995_douyin/config"
 	"gorm.io/gorm"
 	"gorm.io/gorm/schema"
 )

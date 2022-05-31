@@ -1,11 +1,10 @@
 package service
 
 import (
+	"995_douyin/config"
+	"995_douyin/middleware"
+	"995_douyin/model"
 	"errors"
-
-	"github.com/yun-zhi-ztl/995_douyin/config"
-	"github.com/yun-zhi-ztl/995_douyin/middleware"
-	"github.com/yun-zhi-ztl/995_douyin/model"
 )
 
 type RegisterInfo struct {
@@ -14,19 +13,30 @@ type RegisterInfo struct {
 	Userid int
 }
 
-// 用户注册
 func Register(username, password string) *RegisterInfo {
-	// 将user写进数据库
-	user, err := model.CreateNewUserSingleton(username, password)
-	if err != nil {
+	// 用户名和密码不能为空
+	if len(username) == 0 || len(password) == 0 {
 		return &RegisterInfo{
-			Err: err,
+			Err: errors.New("username and password cannot be empty"),
 		}
 	}
-	// 此处需要考虑数据库线程安全
-	config.DB.Create(&user)
-	// 生成token
-	token, err := middleware.CreateJwtToken(user.ID)
+	// 检查是否已经注册
+	var user model.User
+	config.DB.Where("Name = ?", username).Find(&user)
+	if user.ID != 0 {
+		return &RegisterInfo{
+			Err: errors.New("the user has already registered, please log in"),
+		}
+	}
+	// 将user写进数据库
+	newUser := model.User{
+		Name:     username,
+		Password: password,
+	}
+	config.DB.Create(&newUser)
+	// 缺少对token的处理
+	// token, err := middleware.CreateJwtToken(username, password)
+	token, err := middleware.CreateJwtToken1(int(newUser.ID))
 	if err != nil {
 		return &RegisterInfo{
 			Err: errors.New("error in token generation"),
@@ -34,7 +44,7 @@ func Register(username, password string) *RegisterInfo {
 	}
 	return &RegisterInfo{
 		Err:    nil,
-		Userid: int(user.ID),
+		Userid: int(newUser.ID),
 		Token:  token,
 	}
 }
@@ -45,8 +55,13 @@ type LoginInfo struct {
 	Userid int
 }
 
-// 用户登录
 func Login(username, password string) *LoginInfo {
+	token, err := middleware.CreateJwtToken(username, password)
+	if err != nil {
+		return &LoginInfo{
+			Err: errors.New("error in token generation"),
+		}
+	}
 	// 用户名和密码不能为空
 	if len(username) == 0 || len(password) == 0 {
 		return &LoginInfo{
@@ -54,26 +69,20 @@ func Login(username, password string) *LoginInfo {
 		}
 	}
 	// 检查是否已经注册
-	var user model.UserInfo
+	var user model.User
 	config.DB.Where("Name = ?", username).Find(&user)
 	if user.ID == 0 {
 		return &LoginInfo{
 			Err: errors.New("the user not registered, please registe in"),
 		}
 	}
-	// 判断username
 	if user.Password != password {
 		return &LoginInfo{
 			Err: errors.New("the password is error"),
 		}
 	}
-	// 生成token
-	token, err := middleware.CreateJwtToken(user.ID)
-	if err != nil {
-		return &LoginInfo{
-			Err: errors.New("error in token generation"),
-		}
-	}
+	// 缺少对token的处理
+
 	return &LoginInfo{
 		Err:    nil,
 		Userid: int(user.ID),
@@ -81,27 +90,12 @@ func Login(username, password string) *LoginInfo {
 	}
 }
 
-type UserInfo struct {
-	Id            int
-	Name          string
-	FollowCount   int
-	FollowerCount int
-	IsFollow      bool
-}
-
-func UserQue(token string) (*UserInfo, bool) {
-	userid, err := middleware.ParserToken(token)
-	userinfo := &UserInfo{
-		Id:            userid,
-		Name:          "test",
-		FollowCount:   10,
-		FollowerCount: 5,
-		IsFollow:      true,
-	}
-	if err == nil {
-		return userinfo, true
+func UserInfoQuery(userId int) (*model.User, bool) {
+	var user model.User
+	config.DB.Where("Id = ?", userId).Find(&user)
+	if user.ID == 0 {
+		return &user, false
 	} else {
-		return nil, false
+		return &user, true
 	}
-
 }

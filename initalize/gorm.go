@@ -4,8 +4,8 @@
 package initalize
 
 import (
-	"github.com/yun-zhi-ztl/995_douyin/config"
-	"github.com/yun-zhi-ztl/995_douyin/model"
+	"995_douyin/config"
+	"995_douyin/model"
 	"gorm.io/gorm"
 )
 
@@ -24,11 +24,10 @@ func InitGorm() *gorm.DB {
 // CreateTable
 //  @Description: 根据模型自动创建表
 func CreateTable(db *gorm.DB) error {
-	// 创建表，自动迁移(把结构体和数据表进行对应)
 	err := db.AutoMigrate(
-		model.UserInfo{},
-	//model.Video{},
-	//model.Comment{},
+		model.User{},
+		model.Video{},
+		//model.Comment{},
 	)
 	if err != nil {
 		return err

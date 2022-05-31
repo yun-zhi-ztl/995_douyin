@@ -1,10 +1,11 @@
 package main
 
 import (
+	"995_douyin/config"
+	"995_douyin/initalize"
+	"995_douyin/initalize/gormConfig"
 	"github.com/gin-gonic/gin"
-	"github.com/yun-zhi-ztl/995_douyin/config"
-	"github.com/yun-zhi-ztl/995_douyin/initalize"
-	"github.com/yun-zhi-ztl/995_douyin/initalize/gormConfig"
+	"strconv"
 )
 
 func main() {
@@ -19,7 +20,6 @@ func main() {
 	}
 	r := gin.Default()
 	initRouter(r)
-	// s := config.Config.Server.Port
-	// r.Run(":" + strconv.Itoa(s)) // listen and serve on 0.0.0.0:8080 (for windows "localhost:8080")
-	r.Run(":8080")
+	s := config.Config.Server.Port
+	r.Run(":" + strconv.Itoa(s)) // listen and serve on 0.0.0.0:8080 (for windows "localhost:8080")
 }

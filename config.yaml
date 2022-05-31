@@ -7,7 +7,11 @@ mysql:
   host: 127.0.0.1
   port: 3306
   username: root
-  password: winner0423
+  password: jimzhou1
   charset: utf8mb4
   prefix: douyin_
   db_name: douyin
+
+redis:
+  host: 127.0.0.1
+  port: 6379
