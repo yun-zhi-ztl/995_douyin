@@ -2,7 +2,7 @@
  * @Author: yun-zhi-ztl 15071461069@163.com
  * @Date: 2022-06-02 08:58:49
  * @LastEditors: yun-zhi-ztl 15071461069@163.com
- * @LastEditTime: 2022-06-02 08:59:00
+ * @LastEditTime: 2022-06-02 09:21:05
  * @FilePath: \GoPath\995_douyin\model\data\demo_data.go
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -12,8 +12,8 @@ var DemoVideos = []Video{
 	{
 		Id:            1,
 		Author:        DemoUser,
-		PlayUrl:       "http://10.19.125.114:8081/static/test.mp4",
-		CoverUrl:      "http://10.19.125.114:8081/static/test.jpg",
+		PlayUrl:       "http://192.168.31.50:8080/public/test.mp4",
+		CoverUrl:      "http://192.168.31.50:8080/public/feng.png",
 		FavoriteCount: 0,
 		CommentCount:  0,
 		IsFavorite:    false,
@@ -21,17 +21,17 @@ var DemoVideos = []Video{
 	{
 		Id:            2,
 		Author:        DemoUser1,
-		PlayUrl:       "http://10.19.125.114:8081/static/test1.mp4",
-		CoverUrl:      "http://10.19.125.114:8081/static/test1.jpg",
+		PlayUrl:       "http://192.168.31.50:8080/public/test1.mp4",
+		CoverUrl:      "http://192.168.31.50:8080/public/feng.png",
 		FavoriteCount: 1008,
 		CommentCount:  20,
 		IsFavorite:    false,
 	},
 	{
 		Id:            3,
-		Author:        DemoUser2,
-		PlayUrl:       "http://10.19.125.114:8081/static/test2.mp4",
-		CoverUrl:      "http://10.19.125.114:8081/static/test2.jpg",
+		Author:        DemoUser,
+		PlayUrl:       "http://192.168.31.50:8080/public/test2.mp4",
+		CoverUrl:      "http://192.168.31.50:8080/public/feng.png",
 		FavoriteCount: 108,
 		CommentCount:  20,
 		IsFavorite:    false,

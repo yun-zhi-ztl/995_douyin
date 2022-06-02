@@ -1,3 +1,11 @@
+/*
+ * @Author: yun-zhi-ztl 15071461069@163.com
+ * @Date: 2022-06-02 09:14:54
+ * @LastEditors: yun-zhi-ztl 15071461069@163.com
+ * @LastEditTime: 2022-06-02 09:23:25
+ * @FilePath: \GoPath\995_douyin\initalize\gorm.go
+ * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+ */
 // Package initalize
 // @author ufec https://github.com/ufec
 // @date 2022/5/9
@@ -29,6 +37,7 @@ func CreateTable(db *gorm.DB) error {
 		model.UserInfo{},
 		model.Comment{},
 		model.Video{},
+		model.Favorite{},
 	)
 	if err != nil {
 		return err

@@ -12,14 +12,14 @@ import (
 
 // CommentAction no practical effect, just check if token is valid
 func CommentAction(c *gin.Context) {
-	user_id := c.Query("user_id")
 	token := c.Query("token")
+	user_id, _ := middleware.ParserToken(token)
 	video_id := c.Query("video_id")
 	action_type := c.Query("action_type")
 	// 发布评论
 	if action_type == "1" {
 		comment_text := c.Query("comment_text")
-		comment_info, err := service.CreateComment(user_id, token, video_id, comment_text)
+		comment_info, err := service.CreateComment(user_id, video_id, comment_text)
 		if err != nil {
 			c.JSON(http.StatusOK, Response{StatusCode: 1, StatusMsg: err.Error()})
 			return
