@@ -1,6 +1,15 @@
+/*
+ * @Author: yun-zhi-ztl 15071461069@163.com
+ * @Date: 2022-05-25 00:45:20
+ * @LastEditors: yun-zhi-ztl 15071461069@163.com
+ * @LastEditTime: 2022-06-02 09:02:42
+ * @FilePath: \GoPath\995_douyin\middleware\token.go
+ * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+ */
 package middleware
 
 import (
+	"errors"
 	"fmt"
 	"time"
 
@@ -61,4 +70,20 @@ func ParserToken(tokenString string) (int, error) {
 		return int(claims.UserId), nil
 	}
 	return 0, fmt.Errorf("token无效")
+}
+
+func GetUidByToken(tokens string) (uint, error) {
+	token, err := jwt.ParseWithClaims(tokens, &JwtClaims1{}, func(token *jwt.Token) (interface{}, error) {
+		return mySigningKey, nil
+	})
+
+	if err != nil {
+		return 0, err
+	}
+
+	if claims, ok := token.Claims.(*JwtClaims1); ok && token.Valid { // 校验token
+		uid := claims.UserId
+		return uid, nil
+	}
+	return 0, errors.New("token error")
 }
