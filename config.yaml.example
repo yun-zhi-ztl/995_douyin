@@ -6,8 +6,8 @@ server:
 mysql:
   host: 127.0.0.1
   port: 3306
-  username: root
-  password: winner0423
+  username:
+  password:
   charset: utf8mb4
   prefix: douyin_
-  db_name: douyin
+  db_name:

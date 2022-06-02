@@ -2,9 +2,9 @@ package service
 
 import (
 	"errors"
+	"github.com/yun-zhi-ztl/995_douyin/utils"
 
 	"github.com/yun-zhi-ztl/995_douyin/config"
-	"github.com/yun-zhi-ztl/995_douyin/middleware"
 	"github.com/yun-zhi-ztl/995_douyin/model"
 )
 
@@ -26,7 +26,7 @@ func Register(username, password string) *RegisterInfo {
 	// 此处需要考虑数据库线程安全
 	config.DB.Create(&user)
 	// 生成token
-	token, err := middleware.CreateJwtToken(user.ID)
+	token, err := utils.CreateJwtToken(user.ID)
 	if err != nil {
 		return &RegisterInfo{
 			Err: errors.New("error in token generation"),
@@ -68,7 +68,7 @@ func Login(username, password string) *LoginInfo {
 		}
 	}
 	// 生成token
-	token, err := middleware.CreateJwtToken(user.ID)
+	token, err := utils.CreateJwtToken(user.ID)
 	if err != nil {
 		return &LoginInfo{
 			Err: errors.New("error in token generation"),
@@ -90,7 +90,7 @@ type UserInfo struct {
 }
 
 func UserQue(token string) (*UserInfo, bool) {
-	userid, err := middleware.ParserToken(token)
+	userid, err := utils.ParserToken(token)
 	userinfo := &UserInfo{
 		Id:            userid,
 		Name:          "test",
