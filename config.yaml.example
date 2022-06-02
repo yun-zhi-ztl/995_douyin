@@ -10,4 +10,4 @@ mysql:
   password:
   charset: utf8mb4
   prefix: douyin_
-  db_name: 
+  db_name:
