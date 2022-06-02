@@ -2,7 +2,7 @@
  * @Author: yun-zhi-ztl 15071461069@163.com
  * @Date: 2022-05-15 22:11:28
  * @LastEditors: yun-zhi-ztl 15071461069@163.com
- * @LastEditTime: 2022-06-02 09:00:09
+ * @LastEditTime: 2022-06-02 14:12:08
  * @FilePath: \GoPath\995_douyin\controller\favorite.go
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -12,9 +12,9 @@ import (
 	"log"
 
 	"github.com/gin-gonic/gin"
-	"github.com/yun-zhi-ztl/995_douyin/middleware"
 	"github.com/yun-zhi-ztl/995_douyin/model"
 	"github.com/yun-zhi-ztl/995_douyin/service"
+	"github.com/yun-zhi-ztl/995_douyin/utils"
 )
 
 var favoriteService service.FavoriteService
@@ -29,7 +29,7 @@ func FavoriteAction(c *gin.Context) {
 	}
 	user := model.UserInfo{}
 	token := c.Query("token")
-	user.ID, err = middleware.GetUidByToken(token)
+	user.ID, err = utils.GetUidByToken(token)
 	if err != nil {
 		log.Println("Get uid by token error in ./database/video.go")
 	}
@@ -57,7 +57,7 @@ func FavoriteList(c *gin.Context) {
 
 	token := c.Query("token")
 
-	favoritelist.UserId, _ = middleware.GetUidByToken(token)
+	favoritelist.UserId, _ = utils.GetUidByToken(token)
 	favoritelist.Token = token
 	log.Println("token : ", token)
 	log.Println("Favoritelist userid is : ", favoritelist.UserId)

@@ -6,8 +6,8 @@ import (
 	"strconv"
 
 	"github.com/yun-zhi-ztl/995_douyin/config"
-	"github.com/yun-zhi-ztl/995_douyin/middleware"
 	"github.com/yun-zhi-ztl/995_douyin/model"
+	"github.com/yun-zhi-ztl/995_douyin/utils"
 )
 
 type RegisterInfo struct {
@@ -37,7 +37,7 @@ func Register(username, password string) *RegisterInfo {
 		}
 	}
 	// 生成token
-	token, err := middleware.CreateJwtToken(user.ID)
+	token, err := utils.CreateJwtToken(user.ID)
 	if err != nil {
 		return &RegisterInfo{
 			Err: errors.New("error in token generation"),
@@ -84,7 +84,7 @@ func Login(username, password string) *LoginInfo {
 		}
 	}
 	// 生成token
-	token, err := middleware.CreateJwtToken(user.ID)
+	token, err := utils.CreateJwtToken(user.ID)
 	if err != nil {
 		return &LoginInfo{
 			Err: errors.New("error in token generation"),
@@ -110,7 +110,7 @@ func QueryUserInfo(token, userid string) (*UserInfo, error) {
 	if err != nil {
 		return nil, err
 	}
-	token_id, err := middleware.ParserToken(token)
+	token_id, err := utils.ParserToken(token)
 	if err != nil {
 		return nil, err
 	}

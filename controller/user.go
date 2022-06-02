@@ -1,3 +1,11 @@
+/*
+ * @Author: yun-zhi-ztl 15071461069@163.com
+ * @Date: 2022-06-02 10:42:37
+ * @LastEditors: yun-zhi-ztl 15071461069@163.com
+ * @LastEditTime: 2022-06-02 10:44:00
+ * @FilePath: \GoPath\995_douyin\controller\user.go
+ * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+ */
 package controller
 
 import (
@@ -71,13 +79,6 @@ func Login(c *gin.Context) {
 			Token:    loginfo.Token,
 		})
 	}
-	// 可通过数据库查询
-	// if user, exist := usersLoginInfo[token]; exist {
-	// } else {
-	// c.JSON(http.StatusOK, UserLoginResponse{
-	// 	Response: Response{StatusCode: 1, StatusMsg: "User doesn't exist"},
-	// })
-	// }
 }
 
 func UserInfo(c *gin.Context) {
@@ -96,27 +97,3 @@ func UserInfo(c *gin.Context) {
 		User:     user,
 	})
 }
-
-// // token回应：测试处理
-// type UserToken struct {
-// 	Response
-// 	UserName string `json:"username,omitempty"`
-// 	Password string `json:"password,omitempty"`
-// }
-
-// // 解析token测试
-// func Token(c *gin.Context) {
-// 	token, _ := c.GetPostForm("token")
-// 	claims, err := middleware.ParserToken(token)
-// 	if err != nil {
-// 		c.JSON(http.StatusOK, UserRegisterResponse{
-// 			Response: Response{StatusCode: 1, StatusMsg: err.Error()},
-// 		})
-// 	} else {
-// 		c.JSON(http.StatusOK, UserToken{
-// 			Response: Response{StatusCode: 0},
-// 			UserName: claims.Username,
-// 			Password: claims.Userpassword,
-// 		})
-// 	}
-// }

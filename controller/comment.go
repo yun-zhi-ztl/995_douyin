@@ -4,14 +4,14 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"github.com/yun-zhi-ztl/995_douyin/middleware"
 	"github.com/yun-zhi-ztl/995_douyin/service"
+	"github.com/yun-zhi-ztl/995_douyin/utils"
 )
 
 // CommentAction no practical effect, just check if token is valid
 func CommentAction(c *gin.Context) {
 	token := c.Query("token")
-	user_id, _ := middleware.ParserToken(token)
+	user_id, _ := utils.ParserToken(token)
 	video_id := c.Query("video_id")
 	action_type := c.Query("action_type")
 	// 发布评论
@@ -62,7 +62,7 @@ func CommentAction(c *gin.Context) {
 func CommentList(c *gin.Context) {
 	video_id := c.Query("video_id")
 	token := c.Query("token")
-	user_id, err := middleware.ParserToken(token)
+	user_id, err := utils.ParserToken(token)
 	if err != nil {
 		c.JSON(http.StatusOK, Response{StatusCode: 1, StatusMsg: err.Error()})
 		return
