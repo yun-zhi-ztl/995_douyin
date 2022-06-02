@@ -83,17 +83,18 @@ func Login(c *gin.Context) {
 func UserInfo(c *gin.Context) {
 	userid := c.Query("user_id")
 	token := c.Query("token")
-	if user, exist := service.QueryUserInfo(token, userid); exist {
+	user, err := service.QueryUserInfo(token, userid)
+	if err != nil {
 		//if user, exist := UsersLoginInfo[token]; exist {
 		c.JSON(http.StatusOK, UserResponse{
-			Response: Response{StatusCode: 0},
-			User:     user,
+			Response: Response{StatusCode: 1, StatusMsg: err.Error()},
 		})
-	} else {
-		c.JSON(http.StatusOK, UserResponse{
-			Response: Response{StatusCode: 1, StatusMsg: "User doesn't exist"},
-		})
+		return
 	}
+	c.JSON(http.StatusOK, UserResponse{
+		Response: Response{StatusCode: 0},
+		User:     user,
+	})
 }
 
 // // token回应：测试处理

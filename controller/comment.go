@@ -22,9 +22,11 @@ func CommentAction(c *gin.Context) {
 			c.JSON(http.StatusOK, Response{StatusCode: 1, StatusMsg: err.Error()})
 			return
 		}
-		userinfo, _ := service.QueryUser(user_id, int(comment_info.UserId))
+		//log.Println(user_id)
+		userinfo, _ := service.QueryUser(user_id, user_id)
+		// log.Println(userinfo)
 		user := User{
-			Id:            uint(userinfo.Id),
+			Id:            uint(user_id),
 			Name:          userinfo.Name,
 			FollowCount:   int64(userinfo.FollowCount),
 			FollowerCount: int64(userinfo.FollowerCount),

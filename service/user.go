@@ -2,6 +2,7 @@ package service
 
 import (
 	"errors"
+	"fmt"
 	"strconv"
 
 	"github.com/yun-zhi-ztl/995_douyin/config"
@@ -104,19 +105,19 @@ type UserInfo struct {
 	IsFollow      bool
 }
 
-func QueryUserInfo(token, userid string) (*UserInfo, bool) {
+func QueryUserInfo(token, userid string) (*UserInfo, error) {
 	user_id, err := strconv.ParseUint(userid, 10, 64)
 	if err != nil {
-		return nil, false
+		return nil, err
 	}
 	token_id, err := middleware.ParserToken(token)
 	if err != nil {
-		return nil, false
+		return nil, err
 	}
 	if user_id == 0 {
 		user, err := model.QueryUserInfo(uint(token_id))
 		if err != nil {
-			return nil, false
+			return nil, err
 		}
 		userinfo := &UserInfo{
 			Id:            int(user.ID),
@@ -125,11 +126,11 @@ func QueryUserInfo(token, userid string) (*UserInfo, bool) {
 			FollowerCount: user.FollowerCount,
 			IsFollow:      true,
 		}
-		return userinfo, true
+		return userinfo, err
 	}
 	user, err := model.QueryUserInfo(uint(user_id))
 	if err != nil {
-		return nil, false
+		return nil, err
 	}
 	userinfo := &UserInfo{
 		Id:            int(user.ID),
@@ -138,12 +139,15 @@ func QueryUserInfo(token, userid string) (*UserInfo, bool) {
 		FollowerCount: user.FollowerCount,
 		IsFollow:      HasFollow(token_id, int(user_id)),
 	}
-	return userinfo, true
+	return userinfo, err
 }
 
 // !需要改动
-func HasFollow(token_id, user_id int) bool {
-	return false
+func HasFollow(user_id, to_user_id int) bool {
+	// if user_id != to_user_id {
+	// 	return true
+	// }
+	return user_id != to_user_id
 }
 
 func QueryUser(user_id, to_user_id int) (*UserInfo, bool) {
@@ -151,6 +155,7 @@ func QueryUser(user_id, to_user_id int) (*UserInfo, bool) {
 	if err != nil {
 		return nil, false
 	}
+	fmt.Println(user)
 	userinfo := &UserInfo{
 		Id:            int(user.ID),
 		Name:          user.UserName,
