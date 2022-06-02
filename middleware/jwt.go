@@ -6,6 +6,7 @@ package middleware
 import (
 	"github.com/gin-gonic/gin"
 	"github.com/yun-zhi-ztl/995_douyin/controller"
+	"github.com/yun-zhi-ztl/995_douyin/utils"
 	"net/http"
 )
 
@@ -25,7 +26,7 @@ func JWTAuth(where string) gin.HandlerFunc {
 		default:
 			token = c.Query("token")
 		}
-		userId, parseTokenErr := ParserToken(token)
+		userId, parseTokenErr := utils.ParserToken(token)
 		if parseTokenErr != nil {
 			c.JSON(http.StatusOK, controller.Response{StatusCode: 1, StatusMsg: "token鉴权失败, 非法操作"})
 			c.Abort() // 阻止后续流程
