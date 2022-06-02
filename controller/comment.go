@@ -4,9 +4,7 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"github.com/yun-zhi-ztl/995_douyin/config"
 	"github.com/yun-zhi-ztl/995_douyin/middleware"
-	"github.com/yun-zhi-ztl/995_douyin/model"
 	"github.com/yun-zhi-ztl/995_douyin/service"
 )
 
@@ -24,12 +22,10 @@ func CommentAction(c *gin.Context) {
 			c.JSON(http.StatusOK, Response{StatusCode: 1, StatusMsg: err.Error()})
 			return
 		}
-		// 此处可以抽象出查询userinfo的方法
-		var userinfo model.UserInfo
-		config.DB.Where("id=?", user_id).Find(&userinfo)
+		userinfo, _ := service.QueryUser(user_id, int(comment_info.UserId))
 		user := User{
-			Id:            userinfo.ID,
-			Name:          userinfo.UserName,
+			Id:            uint(userinfo.Id),
+			Name:          userinfo.Name,
 			FollowCount:   int64(userinfo.FollowCount),
 			FollowerCount: int64(userinfo.FollowerCount),
 			// 此时需要判断IsFollow
