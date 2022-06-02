@@ -2,7 +2,7 @@
  * @Author: yun-zhi-ztl 15071461069@163.com
  * @Date: 2022-05-25 00:45:20
  * @LastEditors: yun-zhi-ztl 15071461069@163.com
- * @LastEditTime: 2022-06-02 10:24:52
+ * @LastEditTime: 2022-06-02 14:37:44
  * @FilePath: \GoPath\995_douyin\model\user.go
  * @Description: 用户数据库表设计以及数据库相关操作
  */
@@ -21,11 +21,13 @@ import (
  */
 type UserInfo struct {
 	gorm.Model
-	UserName      string `gorm:"varchar(32);not null;unique;comment:用户名称"`
-	Password      string `gorm:"varchar(32);not null;comment:用户密码"`
-	FollowCount   int    `gorm:"default:0;not null;comment:关注总数"`
-	FollowerCount int    `gorm:"default:0;not null;comment:粉丝总数"`
-	IsFollow      bool   `gorm:"-"`
+	UserName      string    `gorm:"varchar(32);not null;unique;comment:用户名称"`
+	Password      string    `gorm:"varchar(32);not null;comment:用户密码"`
+	FollowCount   int       `gorm:"default:0;not null;comment:关注总数"`
+	FollowerCount int       `gorm:"default:0;not null;comment:粉丝总数"`
+	IsFollow      bool      `gorm:"-"`
+	Video         []Video   `gorm:"foreignKey:UserId"`
+	Comment       []Comment `gorm:"foreignKey:UserId"`
 }
 
 /**

@@ -2,7 +2,7 @@
  * @Author: yun-zhi-ztl 15071461069@163.com
  * @Date: 2022-05-15 22:11:28
  * @LastEditors: yun-zhi-ztl 15071461069@163.com
- * @LastEditTime: 2022-06-02 11:19:32
+ * @LastEditTime: 2022-06-02 15:26:14
  * @FilePath: \GoPath\995_douyin\controller\feed.go
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -65,20 +65,21 @@ func Feed(c *gin.Context) {
 				FollowerCount: int64(video.Author.FollowerCount),
 				IsFollow:      IsFollow(uint(userId), video.Author.ID),
 			},
-			PlayUrl:       video.PlayUrl,
-			CoverUrl:      video.CoverUrl,
+			PlayUrl:       VIDEO_URL + video.PlayUrl,
+			CoverUrl:      COVER_URL + video.CoverUrl,
 			FavoriteCount: int64(video.FavoriteCount),
 			CommentCount:  int64(video.CommentCount),
 			IsFavorite:    IsFavorite(video.Author.ID, video.ID),
+			Title:         video.Title,
 		})
 	}
 	if userId != 0 {
 		sort.Slice(videoList, func(i, j int) bool { return videoList[i].Author.IsFollow || videoList[j].Author.IsFollow }) // g0 1.8+支持
 	}
 	c.JSON(http.StatusOK, FeedResponse{
-		Response:  Response{StatusCode: 1, StatusMsg: "success"},
-		VideoList: videoList,
+		Response:  Response{StatusCode: 0, StatusMsg: "success"},
 		NextTime:  nextTime,
+		VideoList: videoList,
 	})
 }
 

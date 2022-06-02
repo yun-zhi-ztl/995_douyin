@@ -142,14 +142,6 @@ func QueryUserInfo(token, userid string) (*UserInfo, error) {
 	return userinfo, err
 }
 
-// !需要改动
-func HasFollow(user_id, to_user_id int) bool {
-	// if user_id != to_user_id {
-	// 	return true
-	// }
-	return user_id != to_user_id
-}
-
 func QueryUser(user_id, to_user_id int) (*UserInfo, bool) {
 	user, err := model.QueryUserInfo(uint(to_user_id))
 	if err != nil {
@@ -164,4 +156,14 @@ func QueryUser(user_id, to_user_id int) (*UserInfo, bool) {
 		IsFollow:      HasFollow(user_id, to_user_id),
 	}
 	return userinfo, true
+}
+
+func UserInfoQuery(userId int) (*model.UserInfo, bool) {
+	var user model.UserInfo
+	config.DB.Where("Id = ?", userId).Find(&user)
+	if user.ID == 0 {
+		return &user, false
+	} else {
+		return &user, true
+	}
 }
