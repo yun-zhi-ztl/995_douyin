@@ -2,7 +2,7 @@
  * @Author: yun-zhi-ztl 15071461069@163.com
  * @Date: 2022-06-02 09:00:51
  * @LastEditors: yun-zhi-ztl 15071461069@163.com
- * @LastEditTime: 2022-06-02 14:51:42
+ * @LastEditTime: 2022-06-02 23:05:44
  * @FilePath: \GoPath\995_douyin\service\video.go
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -43,7 +43,7 @@ func GetLikeVideoList(videolist []model.Video) ([]data.Video, error) {
 	return responsevideolist, nil
 }
 
-// Feed
+// Feed流
 //  @Description: 获取视频流
 //  @receiver s *VideoService
 //  @param startTime string 起始时间
