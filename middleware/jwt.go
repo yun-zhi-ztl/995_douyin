@@ -1,11 +1,3 @@
-/*
- * @Author: yun-zhi-ztl 15071461069@163.com
- * @Date: 2022-06-02 10:42:37
- * @LastEditors: yun-zhi-ztl 15071461069@163.com
- * @LastEditTime: 2022-06-02 19:58:30
- * @FilePath: \GoPath\995_douyin\middleware\jwt.go
- * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
- */
 // Package middleware
 // @author ufec https://github.com/ufec
 // @date 2022/5/11

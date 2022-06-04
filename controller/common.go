@@ -8,6 +8,11 @@
  */
 package controller
 
+import (
+	"github.com/gin-gonic/gin"
+	"net/http"
+)
+
 type Response struct {
 	StatusCode int32  `json:"status_code"`
 	StatusMsg  string `json:"status_msg,omitempty"`
@@ -39,14 +44,22 @@ type User struct {
 	IsFollow      bool   `json:"is_follow"`
 }
 
-// 评论操作响应内容
+// CommentResponse 评论操作响应内容
 type CommentResponse struct {
 	Response
 	Comment Comment
 }
 
-// 评论列表响应内容
+// CommentListResponse 评论列表响应内容
 type CommentListResponse struct {
 	Response
 	CommentList []Comment `json:"comment_list,omitempty"`
+}
+
+func Success(c *gin.Context, msg string) {
+	c.JSON(http.StatusOK, Response{StatusCode: 0, StatusMsg: msg})
+}
+
+func Failed(c *gin.Context, msg string) {
+	c.JSON(http.StatusOK, Response{StatusCode: 1, StatusMsg: msg})
 }

@@ -9,6 +9,7 @@
 package controller
 
 import (
+	"github.com/yun-zhi-ztl/995_douyin/config"
 	"net/http"
 	"sort"
 	"strconv"
@@ -34,6 +35,8 @@ func Feed(c *gin.Context) {
 		if parseIntRes, parseIntErr := strconv.ParseInt(lastTimestamp, 10, 64); parseIntErr == nil {
 			startTime = time.Unix(parseIntRes/1000, 0).Format("2006-01-02 15:04:05")
 		}
+	} else {
+		startTime = time.Now().Format("2006-01-02 15:04:05")
 	}
 	feedVideoList, getFeedErr := videoService.Feed(startTime)
 	if getFeedErr != nil {
@@ -65,8 +68,8 @@ func Feed(c *gin.Context) {
 				FollowerCount: int64(video.Author.FollowerCount),
 				IsFollow:      IsFollow(uint(userId), video.Author.ID),
 			},
-			PlayUrl:       VIDEO_URL + video.PlayUrl,
-			CoverUrl:      COVER_URL + video.CoverUrl,
+			PlayUrl:       config.ServerDomain + video.PlayUrl,
+			CoverUrl:      config.ServerDomain + video.CoverUrl,
 			FavoriteCount: int64(video.FavoriteCount),
 			CommentCount:  int64(video.CommentCount),
 			IsFavorite:    IsFavorite(video.Author.ID, video.ID),

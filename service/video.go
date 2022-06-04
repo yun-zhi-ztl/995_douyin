@@ -43,7 +43,7 @@ func GetLikeVideoList(videolist []model.Video) ([]data.Video, error) {
 	return responsevideolist, nil
 }
 
-// Feed流
+// Feed Feed流
 //  @Description: 获取视频流
 //  @receiver s *VideoService
 //  @param startTime string 起始时间
@@ -56,4 +56,23 @@ func (s *VideoService) Feed(startTime string) ([]model.Video, error) {
 		return nil, err
 	}
 	return videoList, nil
+}
+
+// Create
+//  @Description: 新增一条视频记录
+//  @receiver s *VideoService
+//  @param playUrl string 播放地址(存储路径)
+//  @param coverUrl string	封面地址(存储路径)
+//  @param title string	视频标题/描述
+//  @param userId uint 用户ID
+//  @return model.Video
+//  @return error
+func (s *VideoService) Create(playUrl, coverUrl, title string, userId uint) (model.Video, error) {
+	video := model.Video{
+		UserId:   userId,
+		PlayUrl:  playUrl,
+		CoverUrl: coverUrl,
+		Title:    title,
+	}
+	return video, config.DB.Create(&video).Error
 }
