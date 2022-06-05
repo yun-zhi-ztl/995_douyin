@@ -10,6 +10,7 @@ import "gorm.io/gorm"
 type Conf struct {
 	Mysql  *MysqlConfig
 	Server *ServerConfig
+	Redis  *RedisConfig
 }
 
 var (

@@ -4,7 +4,7 @@
 package initalize
 
 import (
-	"github.com/yun-zhi-ztl/995_douyin/config"
+	"995_douyin/config"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
