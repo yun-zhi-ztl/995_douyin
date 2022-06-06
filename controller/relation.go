@@ -137,7 +137,7 @@ func QueryFollowerUserList(userId int, user model.UserInfo) []User {
 func Qualify(c *gin.Context) model.UserInfo {
 	jwt, err := utils.ParserToken(c.Query("token"))
 	if err != nil {
-		fmt.Errorf("token prase fail!")
+		fmt.Printf("token prase fail!")
 	}
 	var user model.UserInfo
 	config.DB.Where("id = ?", jwt).Find(&user)
