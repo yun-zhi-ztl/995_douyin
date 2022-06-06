@@ -2,7 +2,7 @@
  * @Author: yun-zhi-ztl 15071461069@163.com
  * @Date: 2022-05-15 22:11:28
  * @LastEditors: yun-zhi-ztl 15071461069@163.com
- * @LastEditTime: 2022-06-06 22:49:05
+ * @LastEditTime: 2022-06-06 23:18:49
  * @FilePath: \GoPath\995_douyin\controller\feed.go
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -35,7 +35,7 @@ func Feed(c *gin.Context) {
 	startTime := ""
 	if lastTimestamp != "" {
 		if parseIntRes, parseIntErr := strconv.ParseInt(lastTimestamp, 10, 64); parseIntErr == nil {
-			startTime = time.Unix(parseIntRes/1000, 0).Format("2006-01-02 15:04:05")
+			startTime = time.Unix(parseIntRes, 0).Format("2006-01-02 15:04:05")
 		}
 	} else {
 		startTime = time.Now().Format("2006-01-02 15:04:05")

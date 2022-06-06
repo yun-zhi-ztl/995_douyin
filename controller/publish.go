@@ -2,13 +2,14 @@ package controller
 
 import (
 	"fmt"
-	"github.com/yun-zhi-ztl/995_douyin/config"
 	"net/http"
 	"os"
 	"path/filepath"
 	"runtime"
 	"strconv"
 	"time"
+
+	"github.com/yun-zhi-ztl/995_douyin/config"
 
 	"github.com/gin-gonic/gin"
 	"github.com/yun-zhi-ztl/995_douyin/model"
@@ -130,7 +131,7 @@ func PublishList(c *gin.Context) {
 		videos[i].CoverUrl = config.ServerDomain + (*result)[i].CoverUrl
 		videos[i].FavoriteCount = (int64)((*result)[i].FavoriteCount)
 		videos[i].CommentCount = (int64)((*result)[i].CommentCount)
-		videos[i].IsFavorite = IsFavorite(uint(token_id), (uint)((*result)[i].ID))
+		videos[i].IsFavorite = IsFavorite((uint)((*result)[i].ID), uint(token_id))
 	}
 	videoListresponse.Response = response
 	videoListresponse.VideoList = videos
