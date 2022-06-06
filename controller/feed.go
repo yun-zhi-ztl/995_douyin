@@ -33,7 +33,7 @@ func Feed(c *gin.Context) {
 	startTime := ""
 	if lastTimestamp != "" {
 		if parseIntRes, parseIntErr := strconv.ParseInt(lastTimestamp, 10, 64); parseIntErr == nil {
-			startTime = time.Unix(parseIntRes/1000, 0).Format("2006-01-02 15:04:05")
+			startTime = time.Unix(parseIntRes, 0).Format("2006-01-02 15:04:05")
 		}
 	} else {
 		startTime = time.Now().Format("2006-01-02 15:04:05")
