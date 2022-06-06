@@ -21,30 +21,30 @@ go build && ./simple-demo
 ```
 ### 代码结构
 ```text
-├── config               # 配置文件
+├── config                  # 配置文件
 │   ├── config.go
 │   ├── mysql.go
 │   ├── redis.go
 │   └── server.go
-├── controller           # 控制器
+├── controller              # 控制器
 │   ├── base.go
 │   ├── comment.go
-│   ├── common.go
+│   ├── common.go           # 共有信息
 │   ├── demo_data.go
 │   ├── favorite.go
 │   ├── feed.go
 │   ├── publish.go
 │   ├── relation.go
 │   └── user.go
-├── initalize             # 初始化
+├── initalize               # 初始化
 │   ├── gormConfig
 │   │   ├── gorm_config.go
 │   ├── gorm_mysql.go
 │   ├── gorm.go
 │   └── viper.go
-├── middleware
+├── middleware              # 中间件
 │   └── jwt.go
-├── model
+├── model                   # 模型
 │   ├── data
 │   │   ├── commen.go
 │   │   └── demo_data.go
@@ -52,18 +52,18 @@ go build && ./simple-demo
 │   ├── favorite.go
 │   ├── user.go
 │   └── video.go
-├── public
-├── service
+├── public                  # 视频、封面保存位置
+├── service                 # 逻辑层部分
 │   ├── comment.go
 │   ├── favorite.go
 │   ├── followService.go
 │   ├── user.go
 │   └── video.go
-├── utils
+├── utils                   # 工具类
 │   ├── redis.go
 │   ├── token.go
 │   └── video.go
-├── config.yaml
+├── config.yaml             # 配置文件
 ├── config.yaml.example
 ├── go.mod
 ├── go.sum
