@@ -1,12 +1,12 @@
+<!--
+ * @Author: yun-zhi-ztl 15071461069@163.com
+ * @Date: 2022-06-07 08:05:36
+ * @LastEditors: yun-zhi-ztl 15071461069@163.com
+ * @LastEditTime: 2022-06-07 09:12:19
+ * @FilePath: \GoPath\995_douyin\README.md
+ * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+-->
 # 995队-代码敲不队
-
-## 人员分工：
-- 朱太龙：队长、用户注册与登录、评论操作与评论列表；
-- 许意：框架设计、MySQL数据库设计、用户信息接口、视频流接口；
-- 周冰：MySQL数据库设计、点赞操作、点赞列表；
-- 周彪：Redis数据库相关、关注列表、粉丝列表、关系操作接口；
-- 刘建军：MySQL数据库设计、视频投稿、发布列表接口；
-
 
 ## 项目运行
 ### MySQL安装

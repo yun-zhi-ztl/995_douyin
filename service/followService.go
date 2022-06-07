@@ -2,6 +2,8 @@ package service
 
 import (
 	"fmt"
+	"gorm.io/gorm"
+	"log"
 	"strconv"
 	"time"
 
@@ -35,6 +37,16 @@ func Follow(userId int, targetId int) {
 	if err != nil {
 		fmt.Println("redis set follower failed:", err)
 	}
+	// 更新 userinfo 数据结构中的 favorite_count 字段
+	err = config.DB.Model(&model.UserInfo{}).Where("id = ?", targetId).Update("follower_count", gorm.Expr("follower_count + ?", 1)).Error
+	if err != nil {
+		log.Println("UpdateUserinfo follower_count error in ./service/followservice.go")
+	}
+	// 更新 userinfo 数据结构中的 favorite_count 字段
+	err = config.DB.Model(&model.UserInfo{}).Where("id = ?", userId).Update("follow_count", gorm.Expr("follow_count + ?", 1)).Error
+	if err != nil {
+		log.Println("UpdateUserinfo follower_count error in ./service/followservice.go")
+	}
 }
 
 func Unfollow(userId int, targetId int) {
@@ -59,6 +71,16 @@ func Unfollow(userId int, targetId int) {
 	_, err = conn.Do("Zrem", userFollowerRedisKey, strconv.Itoa(userId))
 	if err != nil {
 		fmt.Println("redis rem follower failed:", err)
+	}
+	// 更新 userinfo 数据结构中的 favorite_count 字段
+	err = config.DB.Model(&model.UserInfo{}).Where("id = ?", targetId).Update("follower_count", gorm.Expr("follower_count - ?", 1)).Error
+	if err != nil {
+		log.Println("UpdateUserinfo follower_count error in ./service/followservice.go")
+	}
+	// 更新 userinfo 数据结构中的 favorite_count 字段
+	err = config.DB.Model(&model.UserInfo{}).Where("id = ?", userId).Update("follow_count", gorm.Expr("follow_count - ?", 1)).Error
+	if err != nil {
+		log.Println("UpdateUserinfo follower_count error in ./service/followservice.go")
 	}
 }
 
