@@ -2,7 +2,6 @@ package service
 
 import (
 	"errors"
-	"fmt"
 	"strconv"
 
 	"github.com/yun-zhi-ztl/995_douyin/config"
@@ -143,11 +142,17 @@ func QueryUserInfo(token, userid string) (*UserInfo, error) {
 }
 
 func QueryUser(user_id, to_user_id int) (*UserInfo, bool) {
-	user, err := model.QueryUserInfo(uint(to_user_id))
+	var err error
+	var user *model.UserInfo
+	if to_user_id == 0 {
+		user, err = model.QueryUserInfo(uint(user_id))
+	} else {
+		user, err = model.QueryUserInfo(uint(to_user_id))
+	}
 	if err != nil {
 		return nil, false
 	}
-	fmt.Println(user)
+	// fmt.Println(user)
 	userinfo := &UserInfo{
 		Id:            int(user.ID),
 		Name:          user.UserName,

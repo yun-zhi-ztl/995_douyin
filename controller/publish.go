@@ -115,7 +115,7 @@ func PublishList(c *gin.Context) {
 	for i := 0; i < len(*result); i++ {
 		userinfo, exist := service.QueryUser(token_id, user_id)
 		if !exist {
-			c.JSON(http.StatusOK, Response{StatusCode: 1, StatusMsg: "something error"})
+			c.JSON(http.StatusOK, Response{StatusCode: 1, StatusMsg: "user_id不存在"})
 			return
 		}
 		videos[i].Author = User{

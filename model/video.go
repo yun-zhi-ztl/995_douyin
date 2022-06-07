@@ -2,7 +2,7 @@
  * @Author: yun-zhi-ztl 15071461069@163.com
  * @Date: 2022-05-25 00:45:20
  * @LastEditors: yun-zhi-ztl 15071461069@163.com
- * @LastEditTime: 2022-06-02 18:03:34
+ * @LastEditTime: 2022-06-07 07:52:19
  * @FilePath: \GoPath\995_douyin\model\video.go
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -37,8 +37,8 @@ func (v Video) Create() error {
 
 func (v Video) QueryByUserID(userId int) (*[]Video, error) {
 	var videos []Video
-	err := config.DB.Where("user_id = ?", userId).Preload("Author").Find(&videos).Error
-	//err := config.DB.Where(&Video{UserId: uint(userId)}).Find(&videos).Error
+	// err := config.DB.Where("user_id = ?", userId).Preload("Author").Find(&videos).Error
+	err := config.DB.Where(&Video{UserId: uint(userId)}).Find(&videos).Error
 	if err != nil {
 		return nil, err
 	}
