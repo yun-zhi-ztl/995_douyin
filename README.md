@@ -1,14 +1,18 @@
 # 995队-代码敲不队
-
-## 人员分工：
-- 朱太龙：队长、用户注册与登录、评论操作与评论列表；
-- 许意：框架设计、MySQL数据库设计、用户信息接口、视频流接口；
-- 周冰：MySQL数据库设计、点赞操作、点赞列表；
-- 周彪：Redis数据库相关、关注列表、粉丝列表、关系操作接口；
-- 刘建军：MySQL数据库设计、视频投稿、发布列表接口；
-
+项目介绍 实现一个简易版抖音后端服务
+实现功能如下
+- 用户登陆注册
+- 登录用户发布视频
+- 点赞/取消点赞视频
+- 评论/取消评论视频
+- 关注用户
+- 简版feed流(按发布时间倒序，登陆用户则优先展示该用户关注的用户的作品)
 
 ## 项目运行
+```shell
+git clone https://github.com/yun-zhi-ztl/995_douyin.git
+cp config.yaml.example config.yaml
+```
 ### MySQL安装
 ### Redis安装
 ### 配置修改
@@ -32,8 +36,8 @@ server:
 mysql:
   host: 127.0.0.1
   port: 3306
-  username: root            # mysql用户名
-  password: winner0423      # mysql密码
+  username:       # mysql用户名
+  password:       # mysql密码
   charset: utf8mb4
   prefix: douyin_
   db_name: douyin           # 提前在mysql内新建一个douyin的database
@@ -76,9 +80,6 @@ go build && ./simple-demo
 ├── middleware              # 中间件
 │   └── jwt.go
 ├── model                   # 模型
-│   ├── data
-│   │   ├── commen.go
-│   │   └── demo_data.go
 │   ├── comment.go
 │   ├── favorite.go
 │   ├── user.go
