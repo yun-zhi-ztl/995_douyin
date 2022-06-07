@@ -1,0 +1,35 @@
+server:
+  port: 8081
+  db_type: mysql
+  host: 127.0.0.1
+
+mysql:
+  host: 127.0.0.1
+  port: 3306
+  username:
+  password:
+  charset: utf8mb4
+  prefix: douyin_
+  db_name:
+  
+redis:
+  host: 127.0.0.1
+  port: 6379
+
+
+mysql:
+  host: 127.0.0.1
+  port: 3306
+  username: root
+  password: jimzhou1
+  charset: utf8mb4
+  prefix: douyin_
+<<<<<<< HEAD:config.yaml
+  db_name: douyin
+
+redis:
+  host: 127.0.0.1
+  port: 6379
+=======
+  db_name: douyin
+>>>>>>> ztl:config.yaml.example

@@ -1,14 +1,16 @@
 package controller
 
 import (
-	"995_douyin/config"
-	"995_douyin/middleware"
-	"995_douyin/model"
-	"995_douyin/service"
 	"fmt"
-	"github.com/gin-gonic/gin"
 	"net/http"
 	"strconv"
+
+	"github.com/yun-zhi-ztl/995_douyin/config"
+	"github.com/yun-zhi-ztl/995_douyin/model"
+	"github.com/yun-zhi-ztl/995_douyin/service"
+	"github.com/yun-zhi-ztl/995_douyin/utils"
+
+	"github.com/gin-gonic/gin"
 )
 
 type UserListResponse struct {
@@ -91,7 +93,7 @@ func FollowerList(c *gin.Context) {
 }
 
 // QueryFolloweeUserList 查user对应的Followee的UserList
-func QueryFolloweeUserList(userId int, user model.User) []User {
+func QueryFolloweeUserList(userId int, user model.UserInfo) []User {
 	userinfo := service.FindFollowees(int(user.ID))
 	//l := len(userinfo)
 	//var userList []User
@@ -101,7 +103,7 @@ func QueryFolloweeUserList(userId int, user model.User) []User {
 		followerCount := service.FollowerCount(user.Id)
 		follow := service.HasFollow(userId, user.Id)
 		userList = append(userList, User{
-			Id:            int64(user.Id),
+			Id:            uint(user.Id),
 			Name:          user.Name,
 			FollowCount:   followCount,
 			FollowerCount: followerCount,
@@ -112,7 +114,7 @@ func QueryFolloweeUserList(userId int, user model.User) []User {
 }
 
 // QueryFollowerUserList 查user对应的Follower的UserList
-func QueryFollowerUserList(userId int, user model.User) []User {
+func QueryFollowerUserList(userId int, user model.UserInfo) []User {
 	userinfo := service.FindFollowers(int(user.ID))
 	//l := len(userinfo)
 	//var userList []User
@@ -122,7 +124,7 @@ func QueryFollowerUserList(userId int, user model.User) []User {
 		followerCount := service.FollowerCount(user.Id)
 		follow := service.HasFollow(userId, user.Id)
 		userList = append(userList, User{
-			Id:            int64(user.Id),
+			Id:            uint(user.Id),
 			Name:          user.Name,
 			FollowCount:   followCount,
 			FollowerCount: followerCount,
@@ -132,13 +134,12 @@ func QueryFollowerUserList(userId int, user model.User) []User {
 	return userList
 }
 
-func Qualify(c *gin.Context) model.User {
-	jwt, err := middleware.ParserToken(c.Query("token"))
+func Qualify(c *gin.Context) model.UserInfo {
+	jwt, err := utils.ParserToken(c.Query("token"))
 	if err != nil {
-		fmt.Errorf("token prase fail!")
+		fmt.Printf("token prase fail!")
 	}
-	userName := jwt.Username
-	var user model.User
-	config.DB.Where("Name = ?", userName).Find(&user)
+	var user model.UserInfo
+	config.DB.Where("id = ?", jwt).Find(&user)
 	return user
 }

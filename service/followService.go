@@ -1,13 +1,15 @@
 package service
 
 import (
-	"995_douyin/config"
-	"995_douyin/model"
-	"995_douyin/utils"
 	"fmt"
-	"github.com/garyburd/redigo/redis"
 	"strconv"
 	"time"
+
+	"github.com/yun-zhi-ztl/995_douyin/config"
+	"github.com/yun-zhi-ztl/995_douyin/model"
+	"github.com/yun-zhi-ztl/995_douyin/utils"
+
+	"github.com/garyburd/redigo/redis"
 )
 
 func Follow(userId int, targetId int) {
@@ -157,9 +159,9 @@ func FindFollowees(userId int) []Userinfo {
 	} else {
 		for _, v := range res {
 			id, _ := strconv.Atoi(v)
-			var user model.User
+			var user model.UserInfo
 			config.DB.Where("Id = ?", id).Find(&user)
-			users = append(users, Userinfo{int(user.ID), user.Name})
+			users = append(users, Userinfo{int(user.ID), user.UserName})
 		}
 	}
 	return users
@@ -186,9 +188,9 @@ func FindFollowers(userId int) []Userinfo {
 	} else {
 		for _, v := range res {
 			id, _ := strconv.Atoi(v)
-			var user model.User
+			var user model.UserInfo
 			config.DB.Where("Id = ?", id).Find(&user)
-			users = append(users, Userinfo{int(user.ID), user.Name})
+			users = append(users, Userinfo{int(user.ID), user.UserName})
 		}
 	}
 	return users

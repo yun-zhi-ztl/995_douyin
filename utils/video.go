@@ -1,0 +1,69 @@
+/*
+ * @Author: yun-zhi-ztl 15071461069@163.com
+ * @Date: 2022-06-06 09:23:16
+ * @LastEditors: yun-zhi-ztl 15071461069@163.com
+ * @LastEditTime: 2022-06-07 08:10:30
+ * @FilePath: \GoPath\995_douyin\utils\video.go
+ * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+ */
+// Package utils
+// @author ufec https://github.com/ufec
+// @date 2022/5/11
+package utils
+
+import (
+	"crypto/hmac"
+	"crypto/sha256"
+	"encoding/base64"
+	"encoding/hex"
+	"os"
+	"os/exec"
+)
+
+// BuildThumbnailWithVideo
+//  @Description: 通过视频生成缩略图
+//  @param videoPath string	video视频地址
+//  @param outputPath string 生成缩略图的路径(含文件名、文件后缀)
+//  @return error 错误
+func BuildThumbnailWithVideo(videoPath, outputPath string) error {
+	cmd := "ffmpeg -i " + videoPath + " -f image2 -t 0.001 " + outputPath
+	// err := exec.Command("cmd", "/c", cmd).Run()
+	err := exec.Command("/bin/bash", "-c", cmd).Run()
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+// MakeDir
+//  @Description: 创建目录
+//  @param dir string 目录路径
+//  @return error 创建目录error
+func MakeDir(dir string) error {
+	return os.MkdirAll(dir, 0755)
+}
+
+// PathExists
+//  @Description: 检测指定的path是否存在
+//  @param path string 路径
+//  @return bool 是否存在
+//  @return error 不存在的错误
+func PathExists(path string) bool {
+	_, err := os.Stat(path)
+	return err == nil || os.IsExist(err)
+}
+
+// HmacSha256
+//  @Description: 使用secret对message进行hmac_sha256散列
+//  @param message string 要散列的文本内容
+//  @param secret string 密钥
+//  @param outputType string 结果类型 hex / base64
+//  @return string 散列后的字符串
+func HmacSha256(message, secret, outputType string) string {
+	h := hmac.New(sha256.New, []byte(secret))
+	h.Write([]byte(message))
+	if outputType == "hex" {
+		return hex.EncodeToString(h.Sum(nil))
+	}
+	return base64.StdEncoding.EncodeToString(h.Sum(nil))
+}
