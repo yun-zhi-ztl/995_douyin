@@ -16,5 +16,5 @@ var (
 	Config       *Conf
 	GormConfig   *gorm.Config
 	DB           *gorm.DB
-	ServerDomain = "本机IP:服务端口号" // 用于访问视频和图片
+	ServerDomain = "http://192.168.31.50:8080/" // 用于访问视频和图片
 )
